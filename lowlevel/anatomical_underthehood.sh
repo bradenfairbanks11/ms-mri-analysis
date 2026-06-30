@@ -39,7 +39,7 @@ LOW=$DERIV/lowlevel/anatomical/sub-${LABEL}
 mkdir -p "$LOW"
 
 # Run any bundled tool from the container, with raw data + workspace bound in.
-run () { apptainer exec -B "$RAW":/data:ro -B "$LOW":/out -B "$DERIV":/deriv "$SIF" "$@"; }
+run () { apptainer exec --pwd /out -B "$RAW":/data:ro -B "$LOW":/out -B "$DERIV":/deriv "$SIF" "$@"; }
 
 # --- locate the raw T1w (defaced MPRAGE) ---
 T1_HOST=$(find "$RAW/sub-${LABEL}" -path '*anat*' -name "*T1w.nii.gz" | sort | head -1)
@@ -57,9 +57,10 @@ run N4BiasFieldCorrection -d 3 -i "$T1" -o /out/T1w_n4.nii.gz -v 1
 # --- STEP 2: skull-strip (FSL BET) ----------------------------------------
 # Classic intensity/surface brain extraction. -m writes the binary brain MASK
 # (as T1w_brain_mask.nii.gz) — the thing we compare to sMRIPrep's desc-brain_mask.
-# -R = robust centre estimation; -f 0.5 = fractional intensity threshold.
+# -f 0.5 = fractional intensity threshold. (Avoid -R "robust" here: its iterative
+# loop shells out to `dc`, which isn't in this minimal container.)
 echo "[`date`] step 2/3  FSL BET skull-strip"
-run bet /out/T1w_n4.nii.gz /out/T1w_brain.nii.gz -m -R -f 0.5
+run bet /out/T1w_n4.nii.gz /out/T1w_brain.nii.gz -m -f 0.5
 ln -sf T1w_brain_mask.nii.gz "$LOW/my_brainmask.nii.gz"   # stable name for the compare step
 
 # --- STEP 3: tissue segmentation (FSL FAST) -------------------------------
