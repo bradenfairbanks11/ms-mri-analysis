@@ -22,7 +22,9 @@
 # Scale to all:  sbatch --array=0-27%4 slurm/anatomical.sh   (see SUBJECTS block)
 # =============================================================================
 set -euo pipefail
-source "$(cd "$(dirname "$0")/../setup" && pwd)/config.sh"
+# NB: under sbatch, $0 is a copy in the spool dir, so a relative path to config.sh
+# breaks. Source it by absolute path (override with MSMRI_CONFIG if the repo moves).
+source "${MSMRI_CONFIG:-/home/bradenf4/ms-mri-analysis/setup/config.sh}"
 
 module load "$APPTAINER_MODULE"
 

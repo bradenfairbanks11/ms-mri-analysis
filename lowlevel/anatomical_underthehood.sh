@@ -24,7 +24,8 @@
 # Interactive is fine too:  salloc -c4 --mem=16G -t1:30:00  then  bash lowlevel/anatomical_underthehood.sh
 # =============================================================================
 set -euo pipefail
-source "$(cd "$(dirname "$0")/../setup" && pwd)/config.sh"
+# Absolute source: under sbatch, $0 is a spool-dir copy (relative path breaks).
+source "${MSMRI_CONFIG:-/home/bradenf4/ms-mri-analysis/setup/config.sh}"
 module load "$APPTAINER_MODULE"
 
 LABEL=${1:-0040}
