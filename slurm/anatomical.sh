@@ -37,7 +37,9 @@ else
 fi
 echo "[`date`] sMRIPrep on sub-${LABEL} (host $(hostname))"
 
-OUT=$DERIV/smriprep
+# sMRIPrep appends its own "smriprep/" subdir to the output dir, so point it at
+# $DERIV to land at the standard derivatives/smriprep/sub-XX (not smriprep/smriprep).
+OUT=$DERIV
 WD=$WORK/smriprep
 mkdir -p "$OUT" "$WD"
 
@@ -62,5 +64,5 @@ apptainer run --cleanenv \
                                     # FreeSurfer surfaces (recon-all, several hrs).
 
 echo "[`date`] DONE. Key outputs:"
-ls -1 "$OUT/sub-${LABEL}/anat/" 2>/dev/null | grep -E 'desc-(preproc_T1w|brain_mask)|dseg|probseg' || true
-echo "QC report: $OUT/sub-${LABEL}.html"
+find "$OUT/smriprep/sub-${LABEL}" -path '*anat*' \( -name '*desc-preproc_T1w.nii.gz' -o -name '*desc-brain_mask.nii.gz' -o -name '*dseg.nii.gz' -o -name '*probseg.nii.gz' \) 2>/dev/null | sort || true
+echo "QC report: $(ls "$OUT/smriprep/sub-${LABEL}"*.html 2>/dev/null)"
