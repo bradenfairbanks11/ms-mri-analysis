@@ -40,7 +40,7 @@ you check off the **Reading** boxes as you go. Last updated: 2026-06-30.
 
 ## Reading — Tier 4: the low-level tools (read the one for the modality you're on)
 - [ ] ANTs N4 bias correction — https://doi.org/10.1109/TMI.2010.2046908
-- [ ] SynthStrip skull-strip — https://surfer.nmr.mgh.harvard.edu/docs/synthstrip/
+- [ ] FSL BET skull-strip — https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/BET (we use BET; sMRIPrep uses ANTs antsBrainExtraction)
 - [ ] FSL FAST segmentation — https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FAST
 
 ## If you only read three things

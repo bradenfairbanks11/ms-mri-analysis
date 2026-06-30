@@ -18,8 +18,12 @@ _(fill in after reading the HTML QC report `$DERIV/smriprep/sub-0040.html`)_
 | My step (low-level) | sMRIPrep's equivalent | Tool |
 |---|---|---|
 | N4 bias correction | "Intensity non-uniformity correction" | ANTs `N4BiasFieldCorrection` |
-| SynthStrip skull-strip → `my_brainmask` | `desc-brain_mask` (ANTs-based) | FreeSurfer `mri_synthstrip` |
+| BET skull-strip → `my_brainmask` | `desc-brain_mask` (**ANTs template-based**) | FSL `bet` |
 | FAST 3-class segmentation | `dseg` / `probseg` GM-WM-CSF | FSL `fast` |
+
+> Note: sMRIPrep skull-strips with **ANTs `antsBrainExtraction.sh`** (template-based),
+> not BET. We use BET (simple, intensity-based) on purpose, so the Dice/overlay shows
+> where a fast classic method diverges from the app's template approach.
 
 ## QC examined
 - [ ] sMRIPrep HTML report: brain mask contour, MNI registration overlay
@@ -27,5 +31,5 @@ _(fill in after reading the HTML QC report `$DERIV/smriprep/sub-0040.html`)_
 - [ ] Overlay `mask_compare.png`: where do they disagree? (expect edges/dura/cerebellum)
 
 ## What I learned / questions
-- Why might SynthStrip (CNN) and sMRIPrep's ANTs brain extraction differ at the edges?
+- Why might BET (intensity/surface) and sMRIPrep's ANTs template-based extraction differ at the edges (dura, cerebellum, brainstem)?
 -

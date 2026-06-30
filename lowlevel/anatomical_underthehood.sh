@@ -13,8 +13,13 @@
 # raw T1w, using the SAME tools sMRIPrep uses (all bundled in smriprep.sif):
 #
 #   1. N4 bias-field correction   (ANTs N4BiasFieldCorrection)
-#   2. skull-strip                (FreeSurfer mri_synthstrip)
+#   2. skull-strip                (FSL BET)
 #   3. tissue segmentation        (FSL FAST -> CSF/GM/WM)
+#
+# NOTE: sMRIPrep itself skull-strips with ANTs (antsBrainExtraction.sh, template-
+# based), NOT BET. We use the simpler classic BET here on purpose — the Dice/overlay
+# vs sMRIPrep's mask then teaches how a fast intensity method differs from a
+# template-based one (try antsBrainExtraction.sh yourself as a follow-up exercise).
 #
 # Then compare your hand-made brain mask to sMRIPrep's desc-brain_mask:
 #   - Dice overlap coefficient
@@ -49,11 +54,13 @@ echo "[`date`] raw T1w: $T1_HOST"
 echo "[`date`] step 1/3  N4 bias correction"
 run N4BiasFieldCorrection -d 3 -i "$T1" -o /out/T1w_n4.nii.gz -v 1
 
-# --- STEP 2: skull-strip (SynthStrip) -------------------------------------
-# Learned (CNN) brain extraction. -m writes the binary brain MASK, which is
-# exactly the thing we'll compare to sMRIPrep's desc-brain_mask.
-echo "[`date`] step 2/3  SynthStrip skull-strip"
-run mri_synthstrip -i /out/T1w_n4.nii.gz -o /out/T1w_brain.nii.gz -m /out/my_brainmask.nii.gz
+# --- STEP 2: skull-strip (FSL BET) ----------------------------------------
+# Classic intensity/surface brain extraction. -m writes the binary brain MASK
+# (as T1w_brain_mask.nii.gz) — the thing we compare to sMRIPrep's desc-brain_mask.
+# -R = robust centre estimation; -f 0.5 = fractional intensity threshold.
+echo "[`date`] step 2/3  FSL BET skull-strip"
+run bet /out/T1w_n4.nii.gz /out/T1w_brain.nii.gz -m -R -f 0.5
+ln -sf T1w_brain_mask.nii.gz "$LOW/my_brainmask.nii.gz"   # stable name for the compare step
 
 # --- STEP 3: tissue segmentation (FSL FAST) -------------------------------
 # Splits the brain into 3 classes by intensity. For a T1, FAST orders the
