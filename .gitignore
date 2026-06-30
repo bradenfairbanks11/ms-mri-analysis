@@ -1,0 +1,49 @@
+# ============================================================
+# CODE-ONLY REPO. Never commit data, derivatives, containers,
+# templates, logs, or any large binary. If in doubt, ignore it.
+# ============================================================
+
+# Data & outputs (live OUTSIDE this repo on archive/autodelete; see setup/config.sh)
+BIDS/
+rawdata/
+sourcedata/
+derivatives/
+work/
+logs/
+
+# Containers & templates (pre-staged on autodelete)
+containers/
+templateflow/
+*.sif
+*.simg
+*.img
+
+# Neuroimaging binaries (belt-and-suspenders — these must never be committed)
+*.nii
+*.nii.gz
+*.gii
+*.mgz
+*.mgh
+*.annot
+*.b0
+*.bval
+*.bvec
+*.trk
+*.tck
+*.h5
+*.dcm
+
+# FreeSurfer license (secret-ish; keep out of git)
+*license*.txt
+.freesurfer_license.txt
+
+# Crash dumps / scratch
+core.*
+*.tmp
+*.swp
+
+# Notebook / python noise
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.DS_Store
