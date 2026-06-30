@@ -36,5 +36,17 @@ _(fill in after reading the HTML QC report `$DERIV/smriprep/sub-0040.html`)_
 - [ ] Overlay `mask_compare.png`: where do they disagree? (expect edges/dura/cerebellum)
 
 ## What I learned / questions
-- Why might BET (intensity/surface) and sMRIPrep's ANTs template-based extraction differ at the edges (dura, cerebellum, brainstem)?
--
+- **Observed (sub-0040 overlay):** BET (intensity) clipped the **brainstem** and the
+  **frontal pole**; sMRIPrep's template-based mask covered them cleanly.
+- **Why:** BET grows a surface outward and stops at local intensity edges, so it fails
+  where there's no clean edge — the brainstem merges into the spinal cord, and the
+  frontal pole is thin tissue against orbital bone/sinus (air), low-contrast. ANTs
+  `antsBrainExtraction.sh` registers a template *with prior brain shape*, so it keeps
+  those regions even when intensity is ambiguous.
+- **Principle:** local/intensity methods fail at thin / near-bone-or-air / low-contrast
+  regions; registration/template methods are robust there (slower, needs good reg).
+- **MS relevance:** brainstem = common MS lesion/atrophy site; a clipped mask corrupts
+  downstream volumes, MNI registration, and signal coverage. This is why fMRIPrep/QSIPrep/
+  ASLPrep all *reuse* this one sMRIPrep brain rather than re-stripping.
+- Follow-up to try: re-run BET with a lower `-f` (keeps more) or `antsBrainExtraction.sh`
+  and see if the brainstem/frontal-pole coverage improves.

@@ -10,7 +10,7 @@ you check off the **Reading** boxes as you go. Last updated: 2026-06-30.
 - [x] Phase 3.1 — **Anatomical (sMRIPrep)** — pipeline + low-level DONE
   - [x] sMRIPrep pilot run COMPLETED (51 min) → brain mask, dseg, GM/WM/CSF, MNI transforms, QC report
   - [x] low-level: N4 → BET → FAST, Dice + overlay vs sMRIPrep (**Dice 0.952**)
-  - [ ] read QC report + write up `notes/anatomical.md` ← *with Claude, your turn*
+  - [x] read QC report + write up `notes/anatomical.md` (insight: BET clips brainstem/frontal pole; template wins)
 - [ ] Phase 3.2 — Functional (fMRIPrep + tedana, multi-echo)
 - [ ] Phase 3.3 — Diffusion (QSIPrep, multi-shell)
 - [ ] Phase 3.4 — Perfusion (ASLPrep, pCASL CBF)
