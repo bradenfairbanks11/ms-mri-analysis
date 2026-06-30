@@ -22,6 +22,7 @@ build smriprep "nipreps/smriprep:${SMRIPREP_VER}"
 build fmriprep "nipreps/fmriprep:${FMRIPREP_VER}"
 build qsiprep  "pennlinc/qsiprep:${QSIPREP_VER}"
 build aslprep  "pennlinc/aslprep:${ASLPREP_VER}"
+build synthstrip "freesurfer/synthstrip:${SYNTHSTRIP_VER}"   # low-level skull-strip comparison
 # QSIRecon (separate app since QSIPrep 26.x) — uncomment when you reach dwi recon:
 # build qsirecon "pennlinc/qsirecon:1.1.1"
 

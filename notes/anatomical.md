@@ -50,3 +50,21 @@ _(fill in after reading the HTML QC report `$DERIV/smriprep/sub-0040.html`)_
   ASLPrep all *reuse* this one sMRIPrep brain rather than re-stripping.
 - Follow-up to try: re-run BET with a lower `-f` (keeps more) or `antsBrainExtraction.sh`
   and see if the brainstem/frontal-pole coverage improves.
+
+## 3-way skull-strip comparison (lowlevel/skullstrip_3way.sh)
+Same N4'd T1, three philosophies — BET (intensity), SynthStrip (CNN), ANTs (template):
+
+| Pair | Dice |   | Mask | voxels | ~mL |
+|---|---|---|---|---|---|
+| SynthStrip↔ANTs | **0.956** |   | BET | 2,450,935 | ~1255 (tightest) |
+| BET↔ANTs | 0.952 |   | ANTs | 2,525,909 | ~1293 (middle) |
+| BET↔SynthStrip | **0.919** |   | SynthStrip | 2,739,903 | ~1403 (loosest) |
+
+- **Spectrum of inclusiveness:** BET < ANTs < SynthStrip (not "BET wrong, others right").
+- SynthStrip is the OUTERMOST contour everywhere (green) — robust/never-clips but keeps a
+  ~150 mL dura/CSF rim. BET clips brainstem/frontal pole. ANTs (Atropos-refined) is in between.
+- Prior-carrying methods (SynthStrip, ANTs) agree most; BET & SynthStrip are the two extremes.
+- **Takeaway:** no universally "correct" mask — it's coverage (SynthStrip) vs precision (tighter).
+  For MS: SynthStrip safe for not losing brainstem lesions, but its rim would inflate
+  volume/atrophy metrics → tighten before quantifying.
+- Artifacts: `skullstrip_3way.png` (ANTs fill, BET red, SynthStrip green), `skullstrip_3way.txt`.

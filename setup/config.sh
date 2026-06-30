@@ -40,6 +40,7 @@ export SMRIPREP_VER=0.19.1
 export FMRIPREP_VER=25.2.5      # LTS
 export QSIPREP_VER=26.0.0
 export ASLPREP_VER=26.0.3
+export SYNTHSTRIP_VER=1.8         # standalone FreeSurfer SynthStrip (for low-level skull-strip comparison)
 
 # ---- Apptainer module (BYU) ----
 export APPTAINER_MODULE=apptainer/1.4.5-hehrqcp
