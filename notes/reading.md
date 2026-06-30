@@ -7,10 +7,10 @@ you check off the **Reading** boxes as you go. Last updated: 2026-06-30.
 - [x] Phase 0 — GitHub repo created & pushed (`bradenfairbanks11/ms-mri-analysis`)
 - [x] Phase 1 — code-only repo scaffolded (storage split: archive=raw, autodelete=compute, home=code)
 - [x] Phase 2 — pilot `sub-0040` fetched (6.1 GB); FreeSurfer license; TemplateFlow; 4 containers built; BIDS-validate _(pending)_
-- [ ] Phase 3.1 — **Anatomical (sMRIPrep)**
+- [x] Phase 3.1 — **Anatomical (sMRIPrep)** — pipeline + low-level DONE
   - [x] sMRIPrep pilot run COMPLETED (51 min) → brain mask, dseg, GM/WM/CSF, MNI transforms, QC report
-  - [ ] low-level: N4 → SynthStrip → FAST, Dice + overlay vs sMRIPrep  ← *running next*
-  - [ ] read QC report + write up `notes/anatomical.md`
+  - [x] low-level: N4 → BET → FAST, Dice + overlay vs sMRIPrep (**Dice 0.952**)
+  - [ ] read QC report + write up `notes/anatomical.md` ← *with Claude, your turn*
 - [ ] Phase 3.2 — Functional (fMRIPrep + tedana, multi-echo)
 - [ ] Phase 3.3 — Diffusion (QSIPrep, multi-shell)
 - [ ] Phase 3.4 — Perfusion (ASLPrep, pCASL CBF)

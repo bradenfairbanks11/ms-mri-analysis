@@ -1,6 +1,11 @@
 # Lab notebook — Modality 1: Anatomical (sMRIPrep)
 
-Pilot subject: **sub-0040**. Status: _not yet run_.
+Pilot subject: **sub-0040**. Status: **pipeline + low-level DONE** (2026-06-30); QC read-through pending.
+
+## Headline result
+- **Dice(my BET mask, sMRIPrep brain_mask) = 0.952** — BET = 2,450,935 voxels,
+  sMRIPrep = 2,525,909 (BET slightly tighter). See `mask_compare.png`.
+- sMRIPrep run: 51 min. Low-level (N4+BET+FAST+compare): 10 min.
 
 ## What I ran
 - Full pipeline: `slurm/anatomical.sh` (sMRIPrep `$SMRIPREP_VER`, `--fs-no-reconall` for the pilot)
