@@ -31,11 +31,15 @@ export DERIV_ARCHIVE=$ARCHIVE_ROOT/derivatives_archive
 export FS_LICENSE=$HOME/.freesurfer_license.txt
 export CONDA_ENV=datalad                            # module load miniconda3 && source activate $CONDA_ENV
 
-# ---- Pinned container versions (edit when bumping; keep reproducible) ----
-export SMRIPREP_VER=0.16.1
-export FMRIPREP_VER=25.1.4
-export QSIPREP_VER=1.0.1
-export ASLPREP_VER=0.7.5
+# ---- Pinned container versions (verified latest stable 2026-06-30) ----
+# Matched NiPreps 2025 generation so fMRIPrep can reuse sMRIPrep's anat outputs.
+# Docker images: nipreps/smriprep, nipreps/fmriprep, pennlinc/qsiprep, pennlinc/aslprep.
+# NOTE: as of QSIPrep 26.x, reconstruction is a SEPARATE app (QSIRecon) — pull it
+# too when you reach Phase 3 diffusion recon.
+export SMRIPREP_VER=0.19.1
+export FMRIPREP_VER=25.2.5      # LTS
+export QSIPREP_VER=26.0.0
+export ASLPREP_VER=26.0.3
 
 # ---- Apptainer module (BYU) ----
 export APPTAINER_MODULE=apptainer/1.4.5-hehrqcp
