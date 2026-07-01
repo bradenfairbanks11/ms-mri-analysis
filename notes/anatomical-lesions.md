@@ -4,6 +4,10 @@ Pilot subject: **sub-0040**. Status: **PARKED (2026-06-30)** — scripts written
 pristine, but not run on ds007908. Resume when a dataset with **T2w or (ideally)
 FLAIR** is available.
 
+> This file = lesions as a **nuisance** (fill / mask in preprocessing). For lesions
+> as the **signal of interest** (DWI-based localization; lesion-symptom mapping),
+> see [`lesion-research-directions.md`](lesion-research-directions.md).
+
 ## The decision (why parked)
 ds007908 ships **T1w only** — no T2w, no FLAIR anywhere in the 28 subjects
 (verified). MS white-matter lesions are only *partially* visible on T1w (the
