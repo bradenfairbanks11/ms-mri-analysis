@@ -13,6 +13,7 @@ you check off the **Reading** boxes as you go. Last updated: 2026-06-30.
   - [x] read QC report + write up `notes/anatomical.md` (insight: template mask beats intensity BET at low-contrast borders — BET clips the frontal pole and leaks at the brainstem base; see boundary QC)
   - [x] bonus 3-way skull-strip (BET/SynthStrip/ANTs): inclusiveness spectrum BET<ANTs<SynthStrip; coverage vs precision
   - [x] boundary QC (montage + landmark zooms): ANTs best mask; GM scalar would pick worst mask (BET) → look at the mask, not the number
+- [~] Phase 3.1b — **MS lesion handling** — PARKED: ds007908 is T1w-only; SAMSEG (`slurm/anat_lesion.sh`) + hand-rolled lesion-filling (`lowlevel/lesion_filling_underthehood.sh`) written pristine as templates. Resume with T2w/FLAIR. See `notes/anatomical-lesions.md`
 - [ ] Phase 3.2 — Functional (fMRIPrep + tedana, multi-echo)
 - [ ] Phase 3.3 — Diffusion (QSIPrep, multi-shell)
 - [ ] Phase 3.4 — Perfusion (ASLPrep, pCASL CBF)
