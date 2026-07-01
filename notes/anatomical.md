@@ -36,8 +36,15 @@ _(fill in after reading the HTML QC report `$DERIV/smriprep/sub-0040.html`)_
 - [ ] Overlay `mask_compare.png`: where do they disagree? (expect edges/dura/cerebellum)
 
 ## What I learned / questions
-- **Observed (sub-0040 overlay):** BET (intensity) clipped the **brainstem** and the
-  **frontal pole**; sMRIPrep's template-based mask covered them cleanly.
+> ⚠️ **Refined later (see Boundary QC below).** This section is my *first-pass* read
+> from the 2-way overlay. The landmark zooms corrected one claim: BET doesn't simply
+> "clip the brainstem" — it clips the **frontal pole** but **leaks** at the brainstem
+> *base* down into the cord/clivus. Read this as the initial hypothesis; the Boundary
+> QC section is the settled finding.
+
+- **Observed (sub-0040 overlay):** BET (intensity) looked like it clipped the
+  **brainstem** and the **frontal pole**; sMRIPrep's template-based mask covered them
+  cleanly. *(Brainstem part later corrected → leak, not clip.)*
 - **Why:** BET grows a surface outward and stops at local intensity edges, so it fails
   where there's no clean edge — the brainstem merges into the spinal cord, and the
   frontal pole is thin tissue against orbital bone/sinus (air), low-contrast. ANTs
@@ -68,3 +75,24 @@ Same N4'd T1, three philosophies — BET (intensity), SynthStrip (CNN), ANTs (te
   For MS: SynthStrip safe for not losing brainstem lesions, but its rim would inflate
   volume/atrophy metrics → tighten before quantifying.
 - Artifacts: `skullstrip_3way.png` (ANTs fill, BET red, SynthStrip green), `skullstrip_3way.txt`.
+
+## Boundary QC — how to actually judge a mask (skullstrip_qc.sh)
+GM volume alone is a SCALAR and can be right for the wrong reasons → judge masks visually
+against anatomy. Artifacts: `qc_montage.png` (axial/coronal/sagittal, 3 contours),
+`qc_zoom.png` (vertex/sinus, frontal pole, brainstem zooms), `qc_gm.txt`.
+
+GM (FAST within each mask, triage only): BET 523.9 · ANTs 533.1 · SynthStrip 552.3 mL.
+
+Visual findings (sub-0040):
+- **Vertex/sup. sagittal sinus:** SynthStrip (green) bulges out over the dura/sinus → this
+  IS the source of its +GM (dura ≈ GM intensity → FAST calls it GM).
+- **Frontal pole:** BET tightest (mild clip), SynthStrip loosest (rim), ANTs between.
+- **Brainstem/foramen:** BET LEAKS inferiorly into cord/clivus (non-brain); ANTs & SynthStrip
+  cut cleanly. (Corrects earlier "BET clips brainstem" — it's actually erratic: clip up front,
+  leak at the base.)
+- **Verdict:** ANTs is the best mask here (no dura rim, no leak — Atropos refinement works),
+  SynthStrip 2nd (needs erosion before volumetry), BET worst.
+
+**KEY LESSON (validated):** ranking by GM volume would pick BET as "cleanest" (lowest GM) —
+the exact mask with the worst spatial error (its leak went into low-intensity cord, not GM).
+The scalar inverts the truth. → metrics = triage to flag outliers; the MASK is the judge.
