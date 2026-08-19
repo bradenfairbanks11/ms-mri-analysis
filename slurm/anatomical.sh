@@ -2,12 +2,17 @@
 #SBATCH --job-name=msmri_smriprep
 #SBATCH --output=/nobackup/autodelete/usr/bradenf4/ms_dataset/logs/%x_%j.out
 #SBATCH --error=/nobackup/autodelete/usr/bradenf4/ms_dataset/logs/%x_%j.err
+#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --time=8:00:00
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=bradenfairbanks@gmail.com
+#
+# BYU HPC agent/operating instructions: see ./BYU_ORC_AGENTS.md in this repo
+# (upstream: /apps/instructions_for_ai_agents/BYU_ORC_AGENTS.md). Slurm requests here
+# intentionally omit --partition/--constraint per that document.
 # =============================================================================
 # Phase 3, Modality 1 (Anatomical) — sMRIPrep, PILOT sub-0040
 #

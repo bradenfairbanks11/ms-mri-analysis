@@ -19,10 +19,18 @@ export RAW=$ARCHIVE_ROOT/BIDS/ds007908            # BIDS dataset root (DataLad)
 # ---- Compute outputs (autodelete, fast) ----
 export COMPUTE_ROOT=/nobackup/autodelete/usr/bradenf4/ms_dataset
 export DERIV=$COMPUTE_ROOT/derivatives
-export CONTAINERS=$COMPUTE_ROOT/containers
-export TEMPLATEFLOW_HOME=$COMPUTE_ROOT/templateflow
 export WORK=$COMPUTE_ROOT/work
 export LOGS=$COMPUTE_ROOT/logs
+
+# ---- Software: /home, NOT autodelete (fixed 2026-08-19) ----
+# These used to live under $COMPUTE_ROOT. That is the 12-week-unused purge tier, so the
+# containers and the TemplateFlow cache would silently vanish while this project is
+# parked, and jobs would fail at some random future date. Worse, compute nodes have NO
+# internet — a purged container cannot be re-pulled from inside a job. /home is backed
+# up, never purged, and has 2 TB free. Shared with ~/spirituality_fmri and
+# ~/missionary_language, which use the same TemplateFlow archive.
+export CONTAINERS=$HOME/software/containers
+export TEMPLATEFLOW_HOME=$HOME/software/templateflow
 
 # ---- Retention copy on archive (rsync derivatives here when a stage is final) ----
 export DERIV_ARCHIVE=$ARCHIVE_ROOT/derivatives_archive
@@ -45,5 +53,5 @@ export SYNTHSTRIP_VER=1.8         # standalone FreeSurfer SynthStrip (for low-le
 # ---- Apptainer module (BYU) ----
 export APPTAINER_MODULE=apptainer/1.4.5-hehrqcp
 
-# Make output dirs on demand (safe: autodelete only)
+# Make output dirs on demand (safe: autodelete + home only, never archive)
 mkdir -p "$DERIV" "$CONTAINERS" "$TEMPLATEFLOW_HOME" "$WORK" "$LOGS"
