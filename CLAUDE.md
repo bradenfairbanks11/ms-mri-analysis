@@ -7,7 +7,7 @@ significant work here, read the local copy of the ORC agent instructions:
 
     ./BYU_ORC_AGENTS.md
 
-Upstream version: 2026-08-11, synced 2026-08-19 from
+Upstream version: 2026-08-11, synced 2026-08-21 (verified byte-identical to upstream) from
 `/apps/instructions_for_ai_agents/BYU_ORC_AGENTS.md`
 (mirror: https://rc.byu.edu/documentation/BYU_ORC_AGENTS.md).
 
@@ -39,4 +39,7 @@ Points that bite this repo in particular:
 Personal learning project: run a modern MS-lesion / structural pipeline end to end, then
 open the hood on the individual steps. `slurm/` holds the production job scripts;
 `lowlevel/` holds the step-by-step teaching versions. Config lives in `setup/config.sh` and
-must be sourced by absolute path under `sbatch` (`$0` points at a spool copy).
+must be sourced by absolute path under `sbatch`: BOTH `$0` and `${BASH_SOURCE[0]}` point
+at Slurm's spool copy (`/var/spool/slurmd/job<N>/slurm_script`), verified 2026-08-21. The
+`slurm/` scripts already do this correctly via `${MSMRI_CONFIG:-/home/bradenf4/ms-mri-analysis/setup/config.sh}`
+— keep that pattern; do not "simplify" it to a `dirname`-based path.
